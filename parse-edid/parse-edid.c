@@ -267,7 +267,7 @@ int parseextb() {
 					if (native==-1)
 						native = currentmode;
 					sprintf(modearray[currentmode], "%s", ceamodes[extb[5+i]&0x7F]);
-					printf("currentmode : %d, ceamodes : %d (native:%d)\n", currentmode, extb[5+i]&0x7F, !!(extb[5+i]&0x80));
+					//printf("currentmode : %d, ceamodes : %d (native:%d)\n", currentmode, extb[5+i]&0x7F, !!(extb[5+i]&0x80));
 					currentmode++;
 				}
 		}
