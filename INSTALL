@@ -1,3 +1,10 @@
+****** Just use parse-edid only *****
+mkcd build
+cmake .. -DCLASSICBUILD=OFF -DI2CBUILD=OFF
+make
+*************************************
+
+
 read-edid is packaged using CMake. To install, simply run:
 
 cmake . 

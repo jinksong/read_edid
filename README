@@ -6,3 +6,7 @@ summary.
 Please see
 	http://www.polypux.org/projects/read-edid/
 for more detailed information
+
+
+Run parse-edid with stdin
+$ parse-edid < edid2.bin
