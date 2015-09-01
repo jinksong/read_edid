@@ -155,7 +155,7 @@ int parseedid() {
 
 	//I can ignore predefined modes - X knows these already.
 	
-	int hactive, vactive, pixclk, hsyncoff, hsyncwidth, hblank, vsyncoff, vsyncwidth, vblank;
+	int hactive, vactive, pixclk, hsyncoff, hsyncwidth, hblank, vsyncoff, vsyncwidth, vblank, rate;
 	//Parse for Detailed Timing Descriptors...
 	for (i = 0x36; i < 0x7E; i += 0x12) { //read through descriptor blocks...
 		if ((edid[i] != 0x00) && (edid[i+1] != 0x00)) { //a dtd
@@ -187,10 +187,13 @@ int parseedid() {
 				sprintf(modearray[currentmode], "%s%shsync %svsync %s", modearray[currentmode], ((edid[i+17]&0x10) && edid[i+17]&0x02) ? "+": "-", ((edid[i+17]&0x10) && edid[i+17]&0x04) ? "+": "-", (edid[i+17]&0x80) ? "interlace": "");
 			//hehe... there's been at least 2 bugs in the old parse-edid the whole time - somebody caught the htimings one, and I just caught two problems right here - lack of checking for analog sync and getting hsync and vsync backwards... yes, vsync and hsync have been flipped this whole time. Glad I'm rewriting
 			//printf("%s\n", modearray[currentmode]);
-			currentmode++;
 			
 			}
 			//printf("\tEndmode\n");
+
+			rate = (double)pixclk * 10000 / (double)(hactive+hblank) / (double)(vactive+vblank);
+			sprintf(modearray[currentmode], "%s (%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
+			currentmode++;
 		}
 	}
 
@@ -278,7 +281,7 @@ int parseextb() {
 
 
 	//Copypaste the DTD stuff from above.
-	int hactive, vactive, pixclk, hsyncoff, hsyncwidth, hblank, vsyncoff, vsyncwidth, vblank;
+	int hactive, vactive, pixclk, hsyncoff, hsyncwidth, hblank, vsyncoff, vsyncwidth, vblank, rate;
 	//Parse for Detailed Timing Descriptors...
 	for (i = curloc; i < 0x80 - 18; i += 0x12) { //read through descriptor blocks...
 		if ((extb[i] != 0x00) && (extb[i+1] != 0x00)) { //a dtd
@@ -318,6 +321,9 @@ int parseextb() {
 
 			}
 			//printf("\n");
+
+			rate = (double)pixclk * 10000 / (double)(hactive+hblank) / (double)(vactive+vblank);
+			sprintf(modearray[currentmode], "%s (%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
 			currentmode++;
 		} else {
 			break;
