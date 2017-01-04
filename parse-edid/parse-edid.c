@@ -192,7 +192,7 @@ int parseedid() {
 			//printf("\tEndmode\n");
 
 			rate = (double)pixclk * 10000 / (double)(hactive+hblank) / (double)(vactive+vblank);
-			sprintf(modearray[currentmode], "%s (%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
+			sprintf(modearray[currentmode], "%s\t(%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
 			currentmode++;
 		}
 	}
@@ -255,8 +255,9 @@ int parseextb() {
 	//see CEA tables 28-30
 	if (curloc > 4) {
 		if ((extb[4] & 0xE0) != 0x40) { //if the first one is not a video one
-		printf("extb[4]: 0x%x (0x%x)\n", extb[4], extb[4]&0xE0);
-			diewemail("Hmm, you have data blocks, but not video ones... weird\n");
+			printf("extb[4]: 0x%x (0x%x)\n", extb[4], extb[4]&0xE0);
+			printf("Hmm, you have data blocks, but not video ones... weird\n");
+			//diewemail("Hmm, you have data blocks, but not video ones... weird\n");
 			
 		}
 
@@ -323,7 +324,7 @@ int parseextb() {
 			//printf("\n");
 
 			rate = (double)pixclk * 10000 / (double)(hactive+hblank) / (double)(vactive+vblank);
-			sprintf(modearray[currentmode], "%s (%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
+			sprintf(modearray[currentmode], "%s\t(%u x %u @ %u)", modearray[currentmode], hactive, vactive, rate);
 			currentmode++;
 		} else {
 			break;
